@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#003b70">
+
+    <title>Onsite Quotation</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- jsPDF AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body>
+
+<header class="top-header">
+    <div>
+        <h1>Onsite Quotation</h1>
+        <p>HVAC Quotation System</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Progress -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+        <div id="stepText">Step 1 of 9</div>
+    </div>
+
+    <!-- PAGE 1: ROOMS -->
+    <section class="page active" id="page1">
+
+        <div class="card">
+            <h2>Rooms Requiring Air Conditioning</h2>
+
+            <p class="instruction">
+                Enter the name of each room that requires air conditioning.
+            </p>
+
+            <div id="roomInputContainer"></div>
+
+            <button class="secondary-btn" onclick="addRoomInput()">
+                + Add Room
+            </button>
+
+            <div class="button-row">
+                <button class="primary-btn" onclick="saveRooms()">
+                    Save Rooms
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 2: ROOM PREVIEW -->
+    <section class="page" id="page2">
+
+        <div class="card">
+            <h2>Preview Rooms</h2>
+
+            <div id="roomPreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(1)">
+                    ← Edit Rooms
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromRooms()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 3: DIMENSIONS -->
+    <section class="page" id="page3">
+
+        <div class="card">
+            <h2>Room Dimensions</h2>
+
+            <p class="instruction">
+                Enter the length and width of each room in metres.
+            </p>
+
+            <div id="dimensionsContainer"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(2)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveDimensions()">
+                    Preview Dimensions →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 4: DIMENSION PREVIEW -->
+    <section class="page" id="page4">
+
+        <div class="card">
+            <h2>Preview Room Dimensions</h2>
+
+            <div id="dimensionsPreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(3)">
+                    ← Edit
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromDimensions()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 5: COPPER -->
+    <section class="page" id="page5">
+
+        <div class="card">
+            <h2>Copper Pipe Length</h2>
+
+            <p class="instruction">
+                Enter the total copper pipe length required for each room in metres.
+            </p>
+
+            <div id="copperContainer"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(4)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveCopper()">
+                    Preview Copper →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 6: COPPER PREVIEW -->
+    <section class="page" id="page6">
+
+        <div class="card">
+            <h2>Preview Copper Lengths</h2>
+
+            <div id="copperPreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(5)">
+                    ← Edit
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromCopper()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 7: COOLING LOAD -->
+    <section class="page" id="page7">
+
+        <div class="card">
+            <h2>Cooling Load Factor</h2>
+
+            <p class="instruction">
+                Enter the base cooling load factor. AC capacity will be calculated
+                using:
+            </p>
+
+            <div class="formula">
+                AC Capacity = Room Area × Cooling Load Factor
+            </div>
+
+            <label>
+                Base Cooling Load Factor
+                <input
+                    type="number"
+                    id="coolingFactor"
+                    step="0.01"
+                    min="0"
+                    placeholder="Example: 0.15"
+                >
+            </label>
+
+            <div id="capacityPreviewLive" class="live-result"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(6)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveCoolingFactor()">
+                    Preview AC Capacities →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 8: CAPACITY PREVIEW -->
+    <section class="page" id="page8">
+
+        <div class="card">
+            <h2>Recommended AC Capacities</h2>
+
+            <div id="capacityPreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(7)">
+                    ← Edit
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromCapacity()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 9: AC PRICES -->
+    <section class="page" id="page9">
+
+        <div class="card">
+            <h2>AC Equipment Prices</h2>
+
+            <p class="instruction">
+                Enter the cost for each unique AC capacity. Identical capacities
+                only need to be priced once.
+            </p>
+
+            <div id="acPriceContainer"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(8)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveAcPrices()">
+                    Preview AC Prices →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 10: AC PRICE PREVIEW -->
+    <section class="page" id="page10">
+
+        <div class="card">
+            <h2>Preview AC Equipment Prices</h2>
+
+            <div id="acPricePreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(9)">
+                    ← Edit
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromPrices()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 11: DRAINAGE -->
+    <section class="page" id="page11">
+
+        <div class="card">
+            <h2>Drainage PVC Pipe Length</h2>
+
+            <p class="instruction">
+                Enter the drainage PVC pipe length required for each room in metres.
+            </p>
+
+            <div id="drainageContainer"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(10)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveDrainage()">
+                    Preview Drainage →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 12: DRAINAGE PREVIEW -->
+    <section class="page" id="page12">
+
+        <div class="card">
+            <h2>Preview Drainage Lengths</h2>
+
+            <div id="drainagePreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(11)">
+                    ← Edit
+                </button>
+
+                <button class="primary-btn" onclick="proceedFromDrainage()">
+                    Proceed →
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PAGE 13: RATES AND OTHER ITEMS -->
+    <section class="page" id="page13">
+
+        <div class="card">
+            <h2>Material Rates & Other Items</h2>
+
+            <h3>Copper & Accessories</h3>
+
+            <label>
+                Copper + Accessories Rate / Metre (KES)
+                <input
+                    type="number"
+                    id="copperRate"
+                    min="0"
+                    step="0.01"
+                    placeholder="Example: 3200"
+                >
+            </label>
+
+            <h3>Drainage PVC & Accessories</h3>
+
+            <label>
+                Drainage Rate / Metre (KES)
+                <input
+                    type="number"
+                    id="drainageRate"
+                    min="0"
+                    step="0.01"
+                    placeholder="Enter rate"
+                >
+            </label>
+
+            <hr>
+
+            <h3>Add Other Items</h3>
+
+            <p class="instruction">
+                Examples: Testing & Commissioning, Drawing, Transport, Labour,
+                Trunking, etc.
+            </p>
+
+            <div class="other-item-form">
+
+                <label>
+                    Item Description
+                    <input
+                        type="text"
+                        id="otherItemName"
+                        placeholder="Example: Testing and Commissioning"
+                    >
+                </label>
+
+                <label>
+                    Quantity
+                    <input
+                        type="number"
+                        id="otherItemQty"
+                        min="0"
+                        step="0.01"
+                        placeholder="1"
+                    >
+                </label>
+
+                <label>
+                    Unit Price (KES)
+                    <input
+                        type="number"
+                        id="otherItemUnitPrice"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                    >
+                </label>
+
+                <div id="otherItemTotal" class="item-total">
+                    Total: KES 0.00
+                </div>
+
+                <button
+                    class="secondary-btn"
+                    onclick="addOtherItem()"
+                >
+                    + Add Item
+                </button>
+
+            </div>
+
+            <div id="otherItemsPreview"></div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goToPage(12)">
+                    ← Back
+                </button>
+
+                <button class="primary-btn" onclick="saveRatesAndProceed()">
+                    Generate Quotation →
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FINAL PAGE -->
+    <section class="page" id="page14">
+
+        <div class="card final-card">
+
+            <h2>Quotation Ready</h2>
+
+            <div id="quotationSummary"></div>
+
+            <button
+                class="primary-btn large-btn"
+                onclick="generatePDF()"
+            >
+                Generate Quotation PDF
+            </button>
+
+            <button
+                class="secondary-btn large-btn"
+                onclick="startNewQuotation()"
+            >
+                Make New Quotation
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>
+        © Moses Ntella Taa
+    </p>
+
+    <p>
+        Email:
+        <a href="mailto:hvacmsaintern@hotpoint.co.ke">
+            hvacmsaintern@hotpoint.co.ke
+        </a>
+    </p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

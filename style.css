@@ -1,0 +1,403 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #003b70;
+    --primary-dark: #00264a;
+    --secondary: #e9f2f9;
+    --accent: #f5b400;
+    --success: #18864b;
+    --danger: #c62828;
+    --text: #222;
+    --muted: #6b7280;
+    --border: #d9dee5;
+    --background: #f4f7fa;
+    --white: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+.top-header {
+    background: var(--primary);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.top-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.top-header p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    padding: 15px;
+}
+
+.progress-container {
+    margin: 15px 0 20px;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #dfe5eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 7px;
+}
+
+#progressFill {
+    width: 7%;
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+#stepText {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: var(--primary-dark);
+    margin-top: 25px;
+}
+
+.instruction {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+label {
+    display: block;
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    margin-top: 7px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0,59,112,0.1);
+}
+
+.room-input,
+.dimension-row,
+.copper-row,
+.drainage-row {
+    position: relative;
+    padding: 15px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    margin-bottom: 12px;
+}
+
+.room-number {
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.dimension-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 13px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    flex: 1;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+}
+
+.secondary-btn {
+    background: var(--secondary);
+    color: var(--primary);
+}
+
+.secondary-btn:hover {
+    background: #dbeaf5;
+}
+
+.danger-btn {
+    background: #fdeaea;
+    color: var(--danger);
+}
+
+.edit-btn {
+    background: #fff5d9;
+    color: #7a5900;
+}
+
+.delete-btn {
+    background: #fdeaea;
+    color: var(--danger);
+}
+
+.preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.preview-table th {
+    background: var(--primary);
+    color: white;
+    padding: 11px;
+    text-align: left;
+}
+
+.preview-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.preview-table tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.action-cell {
+    display: flex;
+    gap: 5px;
+}
+
+.action-cell button {
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+.formula {
+    background: #eef5fa;
+    color: var(--primary);
+    padding: 15px;
+    border-left: 4px solid var(--primary);
+    border-radius: 5px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.live-result {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.capacity-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.total-box {
+    margin-top: 20px;
+    padding: 18px;
+    background: #eef7f1;
+    border-left: 5px solid var(--success);
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.other-item-form {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.item-total {
+    padding: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.other-item-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 12px;
+}
+
+.other-item-card strong {
+    color: var(--primary);
+}
+
+.final-card {
+    text-align: center;
+}
+
+.large-btn {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.final-summary {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.summary-row.total {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.summary-row.vat {
+    font-weight: bold;
+}
+
+.empty-message {
+    text-align: center;
+    color: var(--muted);
+    padding: 20px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 25px 0;
+}
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 25px 10px;
+}
+
+footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .top-header h1 {
+        font-size: 23px;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .button-row button {
+        width: 100%;
+    }
+
+    .dimension-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .preview-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .summary-row {
+        gap: 15px;
+    }
+}
